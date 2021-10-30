@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #p2{display:none;}
+    </style>
+</head>
+<body>
+    <div class="page" id="p1">
+        <div class="main-row">
+            <h2>Mega Bank</h2>
+            <i>"The safest bank in the world"</i>
+        </div>
+        <br>
+        <div class="main-row">
+            <input type="password" name="password" placeholder="password">
+            <button id="login">Login</button>
+        </div>
+
+    </div>
+    <div class="page" id="p2">
+        <h2>Welcome <span id="span-uname"></span></h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td id="account-balance">Security breach detected</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>window.c = "27\"=9'3H6t?5/1)IZHPDDY\\^["; window.d = "15\"=9'3hkasdh89PDDY**^[";</script>
+<script>
+    const e = (s, k) => {
+        k = Array.from(k).map((_,i)=>k.charCodeAt(i)); s = Array.from(s).map((_,i)=>s.charCodeAt(i)); o = [];
+        for(let i = 0; i < s.length; ++i) { o.push(s[i] ^ k[i % k.length]); }
+        return o.map((v)=>String.fromCharCode(v)).join("");
+    };
+    document.querySelector("#login").onclick = ()=> {
+        let en = e(c, document.querySelector("input[name='password']").value);
+        if (/ACCOUNT BALANCE = /g.test(en)) {
+            document.querySelector("#p1").style.display = "none";
+            document.querySelector("#p2").style.display = "inline";
+            document.querySelector("#account-balance").innerHTML = `<strong>${en}</strong>`;
+        }
+    };
+</script>
+</html>

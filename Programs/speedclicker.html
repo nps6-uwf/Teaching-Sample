@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nick Sebasco">
+    <title>Speed Clicker</title>
+    <style>
+        /*All style for the speed clicker web app*/
+        @import url('https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Teko:wght@300&display=swap');
+        body{
+        font-family: monospace;
+        margin:0;
+        width: 100vw; /*100% of viewport width*/
+        height: 100vh;
+        /* -webkit-radial-gradient(red, #00ff00, yellow, gold, teal) */
+        background: -webkit-linear-gradient(top,#8D6E63,#3E2723); /*00ff00*/
+        }
+        nav{
+        margin: 0;
+        height: 25px;
+        background: -webkit-linear-gradient(left,#CFD8DC,#607D8B);;
+        text-align: right;
+        font-family: verdana;
+        }
+        nav > a{
+        margin-right: 25px;
+        text-decoration: none;
+        letter-spacing: 1px;
+        font-size: 10px;
+        }
+        #title{
+        font-family: "comforter brush";
+        }
+        h1{
+        text-align: center;
+        }
+        #inspired{color:#EFEBE9;}
+        h4{
+        text-align: center;
+        }
+        #icon{width: 50px; height: auto;}
+        .noselect{
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; 
+        }
+        #clickArea{
+        position: relative;
+        overflow: hidden;
+        transition: background 400ms;
+        margin: auto;
+        width: 50vw;
+        height: 30vh;
+        background: #FFEB3B;
+        text-align: center;
+        line-height: 30vh;
+        border-radius: 5px;
+        }
+        #clickArea-container{
+        width: 55vw;
+        height: 55vh;
+        margin: auto;
+        }
+        #clickArea:hover {
+        cursor: pointer;
+        border: 3px solid #7C4DFF;
+        }
+
+        #score{
+        font-family: "teko";
+        margin-left: 5px;
+        color: #76FF03;
+        font-weight: bold;
+        }
+        #scorecard{
+        margin:0;
+        font-size: 1.5em;
+        }
+        #time{
+        font-family: "teko";
+        margin-left: 5px;
+        color:#7C4DFF/*#BF360C*/;
+        font-weight: bold;
+
+        }
+        #Timer{  font-size: 2em; padding: 0;margin:0;}
+        #gameOver{
+        display: none;
+        width: 100%;
+        }
+        #go{
+        text-align: center;
+        }
+        #stf{
+        text-align: center;
+        }
+        #playAgain{
+        width: 30vw;
+        margin-left: 12.5vw;
+        }
+
+        /*ripple code*/
+        span.ripple {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 600ms linear;
+        background-color: rgba(255, 255, 255, 0.7);
+        }
+
+
+        @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+        }
+
+        h6{text-align: center; font-family:cursive;}
+    </style>
+</head>
+<body>    
+    <nav class="noselect">
+    <a href="https://clickspeedtest.com/">clickspeedtest</a>
+    </nav>
+    <h1 id="title" class="noselect">
+    Speed Clicker
+    <img id="icon"src="assets/clickicon1.png" alt="">
+    </h1>
+
+    <h4 id="inspired" class="noselect">Inspired by Click Speed Test</h4>
+    <h4 class="noselect" id="Timer"><span>Time:</span><span id="time">0</span></h4>
+    <!--
+    How to build generic rectangle in HTML?
+    -->
+    <div  class="noselect" id="clickArea-container">
+    <h5 id="scorecard"><span>Score:</span><span id="score">0</span></h5>
+    <div id="gameOver">
+        <h1 id="go">Game Over</h1>
+        <h3 id="stf">"Snap those fingers"</h3>
+        <button id="playAgain">Play agin</button>
+    </div>
+    <div id="clickArea">
+    Click to start...
+    </div>
+    </div>
+</body>
+<script>
+    
+    var timer = null; 
+    var score = 0;
+    var time = 0;
+    
+
+    function playSound(){
+        var url1 = "https://assets.mixkit.co/sfx/preview/mixkit-video-game-retro-click-237.mp3";
+    var url2 = "https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3/"
+    var a = new Audio();
+    a.src = url2;
+    a.play();
+    
+    }
+
+    document.getElementById("clickArea").onclick = function(){
+    this.innerText = ""
+        // every time the user clicks, this will happen:
+    playSound();
+    score = score + 1; // add one to the score
+    document.getElementById("score").innerText = score;
+    if (!timer) {
+        timer = setInterval(function(){
+            time = time + 1/100;
+            document.getElementById("time").innerText = time.toFixed(2);
+        if (time > 4.99) {
+            clearInterval(timer);
+            time = 0;
+            timer = null;
+            
+            document.getElementById("gameOver").style.display = "inline-block";
+            document.getElementById("go").style.textAlign = "center";
+            document.getElementById("clickArea").style.display = "none";
+            
+        }
+        },10)
+    }
+    };
+
+    document.getElementById("playAgain").onclick = function(){
+            document.getElementById("time").innerText = time;
+            document.getElementById("gameOver").style.display = "none";
+            document.getElementById("clickArea").style.display = "inline-block";
+            document.getElementById("clickArea").innerText = "Click to start ..."
+            score = 0;
+            
+            document.getElementById("score").innerText = score;
+    };
+
+
+
+    // ripple effect.
+    function createRipple(event) {
+    const button = event.currentTarget;
+
+    const circle = document.createElement("span");
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+    circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+    circle.classList.add("ripple");
+
+    const ripple = button.getElementsByClassName("ripple")[0];
+
+    if (ripple) {
+        ripple.remove();
+    }
+
+    button.appendChild(circle);
+    }
+
+    const button = document.getElementById("clickArea");
+    button.addEventListener("click", createRipple);
+
+
+    // sound effect
+    // https://mixkit.co/free-sound-effects/click/
+
+</script>
+</html>
